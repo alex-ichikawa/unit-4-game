@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="assets/css/style.css">
+    <title>RPG Game</title>
+</head>
+
+<body>
+    <div class="container top-row">
+        <h2 id="chooseTitle">Choose your character</h2>
+        <div class="row">
+            <div class="col-3 text-center">
+                <div class="name" id="p1Name"></div>
+                <div class="pic" id="p1Pic"></div>
+                <div class="hp" id="p1HP"></div>
+            </div>
+            <div class="col-3 text-center">
+                <div class="name" id="p2Name"></div>
+                <div class="pic" id="p2Pic"></div>
+                <div class="hp" id="p2HP"></div>
+            </div>
+            <div class="col-3 text-center">
+                <div class="name" id="p3Name"></div>
+                <div class="pic" id="p3Pic"></div>
+                <div class="hp" id="p3HP"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="defender-row">
+        <h2 id="defenderTitle">Choose your opponent</h2>
+        <div class="row">
+            <div class="col-3 text-center">
+                <div class="name" id="defender1Name"></div>
+                <div class="pic" id="defender1Profile"></div>
+                <div class="hp" id="defender1HitPoints"></div>
+            </div>
+            <div class="col-3 text-center">
+                <div class="name" id="defender2Name"></div>
+                <div class="pic" id="defender2Profile"></div>
+                <div class="hp" id="defender2HitPoints"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="combat-row">
+            <h2 id="combatTitle"></h2>
+            <div class="row">
+                <div class="col-3 text-center combatant">
+                    <div class="name" id="combatName"></div>
+                    <div class="pic" id="combatProfile"></div>
+                    <div class="hp" id="combatHitPoints"></div>
+                </div>
+            </div>
+            <button id="attack">Attack</button>
+            <button id="heal">Heal</button>
+            <div id="combatText1"></div>
+            <div id="combatText3"></div>
+            <div id="combatText2"></div>
+            <button id="playAgain">Play Again</button>
+        </div>
+
+    <script src="assets/javascript/game.js"></script>
+</body>
+
+</html>.

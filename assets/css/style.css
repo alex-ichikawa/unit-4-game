@@ -1,0 +1,14 @@
+.container {
+    margin-left: 25px;
+    margin-bottom: 50px;
+}
+
+.name,
+.hp,
+.pic {
+    background-color: #ffffff;
+}
+
+button {
+    margin-top: 20px;
+}
