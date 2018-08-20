@@ -72,7 +72,19 @@ wolverineSelect.setAttribute("src", "assets/audio/wolverineSelect.mp3");
 let hulkSelect = document.createElement("audio")
 hulkSelect.setAttribute("src", "assets/audio/hulkSelect.mp3")
 
-console.log(Math.floor(Math.random() * 10));
+//Title Screen
+
+function title() {
+    document.body.style.background = 'URL("assets/images/background1.jpg") no-repeat';
+    document.body.style.backgroundSize = "100%";
+    document.getElementById("chooseTitle").style.display = 'none';
+    document.getElementById("charRow").style.display = 'none';
+    document.getElementById("defender-row").style.display = 'none';
+    document.getElementById("combat-row").style.display = 'none';
+}
+
+title();
+
 
 //Sets up the DOM for game start
 function startGame() {
@@ -93,11 +105,16 @@ function startGame() {
     document.getElementById("playAgain").style.display = 'none';
     document.getElementById("chooseTitle").textContent = "Choose your Character";
     document.getElementById("chooseTitle").style.display = 'block';
-    //document.body.style.background = 'URL("assets/images/background.jpg")';
-    //document.body.style.background = "contain";
+    document.getElementById("charRow").style.display = 'inline-flex';
+    document.getElementById("start").style.display = 'none';
+    document.body.style.background = 'URL("assets/images/background2.jpg")';
+    document.body.style.background = "contain";
 };
 
-startGame();
+//click to start game
+$("#start").on("click", function() {
+    startGame();
+});
 
 //Character selection
 $("#p1Pic").on("click", function () {
@@ -122,7 +139,7 @@ $("#p1Pic").on("click", function () {
         document.getElementById("defender2Profile").innerHTML = defender2["pic"];
         document.getElementById("defender2HitPoints").innerHTML = `HP: ${defender2["hitPoints"]}`;
         document.getElementById("defender-row").style.display = 'block';
-        document.getElementById("chooseTitle").textContent = "Your Character"
+        document.getElementById("chooseTitle").textContent = "Your Character";
         document.getElementById("special").textContent = `${attacker["specialMove"]}: ${attacker["specialCounter"]}`;
 
     };
@@ -153,6 +170,7 @@ $("#p2Pic").on("click", function () {
         document.getElementById("defender2Profile").innerHTML = defender2["pic"];
         document.getElementById("defender2HitPoints").innerHTML = `HP: ${defender2["hitPoints"]}`;
         document.getElementById("defender-row").style.display = 'block';
+        document.getElementById("chooseTitle").textContent = "Your Character";
         document.getElementById("special").textContent = `${attacker["specialMove"]}: ${attacker["specialCounter"]}`;
     };
 });
@@ -182,6 +200,7 @@ $("#p3Pic").on("click", function () {
         document.getElementById("defender2Profile").innerHTML = defender2["pic"];
         document.getElementById("defender2HitPoints").innerHTML = `HP: ${defender2["hitPoints"]}`;
         document.getElementById("defender-row").style.display = 'block';
+        document.getElementById("chooseTitle").textContent = "Your Character";
         document.getElementById("special").textContent = `${attacker["specialMove"]}: ${attacker["specialCounter"]}`;
     };
 });
