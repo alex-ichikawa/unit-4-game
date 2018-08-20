@@ -12,7 +12,7 @@ let deadpool = {
     "pic": '<img src = "assets/images/deadpoolProfile.jpg">',
 };
 
-let wolvorine = {
+let wolverine = {
     "name": "Wolverine",
     "hitPoints": 550,
     "maxHitPoints": 550,
@@ -72,9 +72,9 @@ function startGame() {
     document.getElementById("p1Name").innerHTML = deadpool["name"];
     document.getElementById("p1Pic").innerHTML = deadpool["pic"];
     document.getElementById("p1HP").innerHTML = `HP - ${deadpool["hitPoints"]}`;
-    document.getElementById("p2Name").innerHTML = wolvorine["name"];
-    document.getElementById("p2Pic").innerHTML = wolvorine["pic"];
-    document.getElementById("p2HP").innerHTML = `HP - ${wolvorine["hitPoints"]}`;
+    document.getElementById("p2Name").innerHTML = wolverine["name"];
+    document.getElementById("p2Pic").innerHTML = wolverine["pic"];
+    document.getElementById("p2HP").innerHTML = `HP - ${wolverine["hitPoints"]}`;
     document.getElementById("p3Name").innerHTML = hulk["name"];
     document.getElementById("p3Pic").innerHTML = hulk["pic"];
     document.getElementById("p3HP").innerHTML = `HP - ${hulk["hitPoints"]}`;
@@ -95,7 +95,7 @@ $("#p1Pic").on("click", function () {
         deadSelect.play();
         charChosen = true;
         attacker = deadpool;
-        defender1 = wolvorine;
+        defender1 = wolverine;
         defender2 = hulk;
         $("#p2Name").empty();
         $("#p2Pic").empty();
@@ -119,7 +119,7 @@ $("#p2Pic").on("click", function () {
     if (charChosen === false) {
         wolverineSelect.play();
         charChosen = true;
-        attacker = wolvorine;
+        attacker = wolverine;
         defender1 = deadpool;
         defender2 = hulk;
         document.getElementById("p1Name").innerHTML = attacker["name"];
@@ -148,7 +148,7 @@ $("#p3Pic").on("click", function () {
         charChosen = true;
         attacker = hulk;
         defender1 = deadpool;
-        defender2 = wolvorine;
+        defender2 = wolverine;
         document.getElementById("p1Name").innerHTML = attacker["name"];
         document.getElementById("p1Pic").innerHTML = attacker["pic"];
         document.getElementById("p1HP").innerHTML = `HP - ${attacker["hitPoints"]}`;
@@ -383,8 +383,8 @@ $("#attack").on("click", function () {
 $("#playAgain").on("click", function () {
     deadpool["hitPoints"] = deadpool["maxHitPoints"];
     deadpool["healCounter"] = deadpool["maxHeals"];
-    wolvorine["hitPoints"] = wolvorine["maxHitPoints"];
-    wolvorine["healCounter"] = wolvorine["maxHeals"];
+    wolverine["hitPoints"] = wolverine["maxHitPoints"];
+    wolverine["healCounter"] = wolverine["maxHeals"];
     hulk["hitPoints"] = hulk["maxHitPoints"];
     attacker = [];
     defender1 = [];
