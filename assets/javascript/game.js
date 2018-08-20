@@ -10,6 +10,9 @@ let deadpool = {
     "attack": [75, 78, 79, 80, 81, 82, 85, 100],
     "counterAttack": [70, 73, 75, 80, 95, 100],
     "pic": '<img src = "assets/images/deadpoolProfile.jpg">',
+    "specialMove": "Katana-Rama",
+    "specialCounter": 1,
+    "specialDamage": 150,
 };
 
 let wolverine = {
@@ -23,17 +26,23 @@ let wolverine = {
     "attack": [50, 55, 60, 65, 80, 100, 110, 115],
     "counterAttack": [70, 75, 80, 95, 100],
     "pic": '<img src = "assets/images/wolverineProfile.jpg">',
+    "specialMove": "Berserker Barrage",
+    "specialCounter": 1,
+    "specialDamage": 200,
 };
 
 let hulk = {
     "name": "Hulk",
-    "hitPoints": 625,
-    "maxHitPoints": 625,
+    "hitPoints": 675,
+    "maxHitPoints": 675,
     "healing": false,
     "attack": [90, 100, 110, 150],
     "counterAttack": [80, 95, 100, 110],
     "2ndLife": false,
     "pic": '<img src = "assets/images/hulkProfile.jpg">',
+    "specialMove": "Hulk Smash",
+    "specialCounter": 1,
+    "specialDamage": 300,
 };
 
 //Store atacker and defender names
@@ -63,6 +72,7 @@ wolverineSelect.setAttribute("src", "assets/audio/wolverineSelect.mp3");
 let hulkSelect = document.createElement("audio")
 hulkSelect.setAttribute("src", "assets/audio/hulkSelect.mp3")
 
+console.log(Math.floor(Math.random() * 10));
 
 //Sets up the DOM for game start
 function startGame() {
@@ -71,20 +81,20 @@ function startGame() {
     startSound.play();
     document.getElementById("p1Name").innerHTML = deadpool["name"];
     document.getElementById("p1Pic").innerHTML = deadpool["pic"];
-    document.getElementById("p1HP").innerHTML = `HP - ${deadpool["hitPoints"]}`;
+    document.getElementById("p1HP").innerHTML = `HP: ${deadpool["hitPoints"]}`;
     document.getElementById("p2Name").innerHTML = wolverine["name"];
     document.getElementById("p2Pic").innerHTML = wolverine["pic"];
-    document.getElementById("p2HP").innerHTML = `HP - ${wolverine["hitPoints"]}`;
+    document.getElementById("p2HP").innerHTML = `HP: ${wolverine["hitPoints"]}`;
     document.getElementById("p3Name").innerHTML = hulk["name"];
     document.getElementById("p3Pic").innerHTML = hulk["pic"];
-    document.getElementById("p3HP").innerHTML = `HP - ${hulk["hitPoints"]}`;
+    document.getElementById("p3HP").innerHTML = `HP: ${hulk["hitPoints"]}`;
     document.getElementById("defender-row").style.display = 'none';
     document.getElementById("combat-row").style.display = 'none';
     document.getElementById("playAgain").style.display = 'none';
     document.getElementById("chooseTitle").textContent = "Choose your Character";
     document.getElementById("chooseTitle").style.display = 'block';
     //document.body.style.background = 'URL("assets/images/background.jpg")';
-    // document.body.style.background = "contain";
+    //document.body.style.background = "contain";
 };
 
 startGame();
@@ -107,12 +117,13 @@ $("#p1Pic").on("click", function () {
         document.getElementById("p3").style.display = 'none';
         document.getElementById("defender1Name").innerHTML = defender1["name"];
         document.getElementById("defender1Profile").innerHTML = defender1["pic"];
-        document.getElementById("defender1HitPoints").innerHTML = `HP - ${defender1["hitPoints"]}`;
+        document.getElementById("defender1HitPoints").innerHTML = `HP: ${defender1["hitPoints"]}`;
         document.getElementById("defender2Name").innerHTML = defender2["name"];
         document.getElementById("defender2Profile").innerHTML = defender2["pic"];
-        document.getElementById("defender2HitPoints").innerHTML = `HP - ${defender2["hitPoints"]}`;
+        document.getElementById("defender2HitPoints").innerHTML = `HP: ${defender2["hitPoints"]}`;
         document.getElementById("defender-row").style.display = 'block';
         document.getElementById("chooseTitle").textContent = "Your Character"
+        document.getElementById("special").textContent = `${attacker["specialMove"]}: ${attacker["specialCounter"]}`;
 
     };
 });
@@ -126,7 +137,7 @@ $("#p2Pic").on("click", function () {
         defender2 = hulk;
         document.getElementById("p1Name").innerHTML = attacker["name"];
         document.getElementById("p1Pic").innerHTML = attacker["pic"];
-        document.getElementById("p1HP").innerHTML = `HP - ${attacker["hitPoints"]}`;
+        document.getElementById("p1HP").innerHTML = `HP: ${attacker["hitPoints"]}`;
         $("#p2Name").empty();
         $("#p2Pic").empty();
         $("#p2HP").empty();
@@ -137,12 +148,12 @@ $("#p2Pic").on("click", function () {
         document.getElementById("p3").style.display = 'none';
         document.getElementById("defender1Name").innerHTML = defender1["name"];
         document.getElementById("defender1Profile").innerHTML = defender1["pic"];
-        document.getElementById("defender1HitPoints").innerHTML = `HP - ${defender1["hitPoints"]}`;
+        document.getElementById("defender1HitPoints").innerHTML = `HP: ${defender1["hitPoints"]}`;
         document.getElementById("defender2Name").innerHTML = defender2["name"];
         document.getElementById("defender2Profile").innerHTML = defender2["pic"];
-        document.getElementById("defender2HitPoints").innerHTML = `HP - ${defender2["hitPoints"]}`;
+        document.getElementById("defender2HitPoints").innerHTML = `HP: ${defender2["hitPoints"]}`;
         document.getElementById("defender-row").style.display = 'block';
-
+        document.getElementById("special").textContent = `${attacker["specialMove"]}: ${attacker["specialCounter"]}`;
     };
 });
 
@@ -155,7 +166,7 @@ $("#p3Pic").on("click", function () {
         defender2 = wolverine;
         document.getElementById("p1Name").innerHTML = attacker["name"];
         document.getElementById("p1Pic").innerHTML = attacker["pic"];
-        document.getElementById("p1HP").innerHTML = `HP - ${attacker["hitPoints"]}`;
+        document.getElementById("p1HP").innerHTML = `HP: ${attacker["hitPoints"]}`;
         $("#p2Name").empty();
         $("#p2Pic").empty();
         $("#p2HP").empty();
@@ -166,12 +177,12 @@ $("#p3Pic").on("click", function () {
         document.getElementById("p3").style.display = 'none';
         document.getElementById("defender1Name").innerHTML = defender1["name"];
         document.getElementById("defender1Profile").innerHTML = defender1["pic"];
-        document.getElementById("defender1HitPoints").innerHTML = `HP - ${defender1["hitPoints"]}`;
+        document.getElementById("defender1HitPoints").innerHTML = `HP: ${defender1["hitPoints"]}`;
         document.getElementById("defender2Name").innerHTML = defender2["name"];
         document.getElementById("defender2Profile").innerHTML = defender2["pic"];
-        document.getElementById("defender2HitPoints").innerHTML = `HP - ${defender2["hitPoints"]}`;
+        document.getElementById("defender2HitPoints").innerHTML = `HP: ${defender2["hitPoints"]}`;
         document.getElementById("defender-row").style.display = 'block';
-
+        document.getElementById("special").textContent = `${attacker["specialMove"]}: ${attacker["specialCounter"]}`;
     };
 });
 
@@ -184,10 +195,10 @@ $("#defender1Profile").on("click", function () {
         combatant = defender1;
         document.getElementById("defender1Name").innerHTML = defender2["name"];
         document.getElementById("defender1Profile").innerHTML = defender2["pic"];
-        document.getElementById("defender1HitPoints").innerHTML = `HP - ${defender2["hitPoints"]}`;
+        document.getElementById("defender1HitPoints").innerHTML = `HP: ${defender2["hitPoints"]}`;
         document.getElementById("combatName").innerHTML = defender1["name"];
         document.getElementById("combatProfile").innerHTML = defender1["pic"];
-        document.getElementById("combatHitPoints").innerHTML = `HP - ${defender1["hitPoints"]}`;
+        document.getElementById("combatHitPoints").innerHTML = `HP: ${defender1["hitPoints"]}`;
         $("#defender2Name").empty();
         $("#defender2Profile").empty();
         $("#defender2HitPoints").empty();
@@ -197,10 +208,12 @@ $("#defender1Profile").on("click", function () {
         if (attacker["healing"] === false) {
             document.getElementById("heal").style.display = 'none';
             document.getElementById("attack").style.display = 'inline';
+            document.getElementById("special").style.display = 'inline';
         } else {
             document.getElementById("heal").style.display = 'inline';
-            document.getElementById("heal").textContent = `Heal - ${attacker["healCounter"]}`;
+            document.getElementById("heal").textContent = `Heal: ${attacker["healCounter"]}`;
             document.getElementById("attack").style.display = 'inline';
+            document.getElementById("special").style.display = 'inline';
         };
     };
 });
@@ -212,7 +225,7 @@ $("#defender2Profile").on("click", function () {
         combatant = defender2;
         document.getElementById("combatName").innerHTML = defender2["name"];
         document.getElementById("combatProfile").innerHTML = defender2["pic"];
-        document.getElementById("combatHitPoints").innerHTML = `HP - ${defender2["hitPoints"]}`;
+        document.getElementById("combatHitPoints").innerHTML = `HP: ${defender2["hitPoints"]}`;
         $("#defender2Name").empty();
         $("#defender2Profile").empty();
         $("#defender2HitPoints").empty();
@@ -222,53 +235,15 @@ $("#defender2Profile").on("click", function () {
         if (attacker["healing"] === false) {
             document.getElementById("heal").style.display = 'none';
             document.getElementById("attack").style.display = 'inline';
+            document.getElementById("special").style.display = 'inline';
         } else {
             document.getElementById("heal").style.display = 'inline';
-            document.getElementById("heal").textContent = `Heal - ${attacker["healCounter"]}`;
+            document.getElementById("heal").textContent = `Heal: ${attacker["healCounter"]}`;
             document.getElementById("attack").style.display = 'inline';
+            document.getElementById("special").style.display = 'inline';
         };
     };
 });
-
-//chose second opponent
-// Not using...decided on different combat flow
-/*
-$("#defender1Profile").on("click", function() {
-    if (opp1Defeated === true && defender1chosen === false && opp2Chosen === false) {
-        opp2Chosen = true;
-        combatant = defender1;
-        document.getElementById("combatName").innerHTML = defender1["name"];
-        document.getElementById("combatProfile").innerHTML = defender1["pic"];
-        document.getElementById("combatHitPoints").innerHTML = defender1["hitPoints"];
-        $("#defender1Name").empty();
-        $("#defender1Profile").empty();
-        $("#defender1HitPoints").empty();
-        document.getElementById("defender-row").style.display = 'none';
-        document.getElementById("combat-row").style.display = 'block';
-        if (attacker["healing"] === false) {
-            document.getElementById("heal").style.display = 'none';
-        };
-    };
-});
-
-$("#defender1Profile").on("click", function() {
-    if (opp1Defeated === true && defender1chosen === true && opp2Chosen === false) {
-        opp2Chosen = true;
-        combatant = defender2
-        document.getElementById("combatName").innerHTML = defender2["name"];
-        document.getElementById("combatProfile").innerHTML = defender2["pic"];
-        document.getElementById("combatHitPoints").innerHTML = defender2["hitPoints"];
-        $("#defender1Name").empty();
-        $("#defender1Profile").empty();
-        $("#defender1HitPoints").empty();
-        document.getElementById("defender-row").style.display = 'none';
-        document.getElementById("combat-row").style.display = 'block';
-        if (attacker["healing"] === false) {
-            document.getElementById("heal").style.display = 'none';
-        };
-    };
-});
-*/
 
 //Combat
 
@@ -276,7 +251,7 @@ $("#defender1Profile").on("click", function() {
 function healCheck() {
     if (combatant["healing"] === true && combatant["hitPoints"] < 75 && combatant["healCounter"] > 0 && combatant["hitPoints"] > 0) {
         combatant["hitPoints"] = combatant["hitPoints"] + combatant["healPoints"];
-        document.getElementById("combatHitPoints").innerHTML = `HP - ${combatant["hitPoints"]}`;
+        document.getElementById("combatHitPoints").innerHTML = `HP: ${combatant["hitPoints"]}`;
         document.getElementById("combatText2").textContent = `${combatant["name"]} used their super heaing and healed ${combatant["healPoints"]} hit points!`;
         combatant["healCounter"]--;
         counterAttack();
@@ -287,10 +262,16 @@ function healCheck() {
 function counterAttack() {
     if (combatant["hitPoints"] <= 0) {
         winLose();
+    } else if ((Math.floor(Math.random() * 10)) === 7 && combatant["specialCounter"] > 0) {
+        attacker["hitPoints"] = attacker["hitPoints"] - combatant["specialDamage"];
+        document.getElementById("p1HP").innerHTML = `HP: ${attacker["hitPoints"]}`;
+        document.getElementById('combatText3').textContent = `${combatant["name"]} hit you with ${combatant["specialMove"]} for ${combatant["specialDamage"]} damage`;
+        combatant["specialCounter"]--;
+        winLose();
     } else {
         let attackCounter = combatant["counterAttack"][Math.floor(Math.random() * combatant.counterAttack.length)];
         attacker["hitPoints"] = attacker["hitPoints"] - attackCounter;
-        document.getElementById("p1HP").innerHTML = `HP - ${attacker["hitPoints"]}`;
+        document.getElementById("p1HP").innerHTML = `HP: ${attacker["hitPoints"]}`;
         document.getElementById('combatText3').textContent = `${combatant["name"]} hit your for ${attackCounter} damage`;
         winLose();
     };
@@ -306,18 +287,18 @@ $("#heal").on("click", function () {
         $("#combatText1").empty();
         $("#combatText3").empty();
         attacker["hitPoints"] = attacker["hitPoints"] + attacker["healPoints"];
-        document.getElementById("p1HP").innerHTML = `HP - ${attacker["hitPoints"]}`;
+        document.getElementById("p1HP").innerHTML = `HP: ${attacker["hitPoints"]}`;
         document.getElementById("combatText2").textContent = `You healed ${attacker["healPoints"]} hit points`;
         attacker["healCounter"]--;
-        document.getElementById("heal").textContent = `Heal - ${attacker["healCounter"]}`;
+        document.getElementById("heal").textContent = `Heal: ${attacker["healCounter"]}`;
     } else if (attacker["healing"] === true && attacker["healCounter"] > 0 && attacker["hitPoints"] > (attacker["maxHitPoints"] - attacker["healPoints"])) {
         $("#combatText1").empty();
         $("#combatText3").empty();
         document.getElementById("combatText2").textContent = `You healed ${attacker["maxHitPoints"] - attacker["hitPoints"]} hit points`;
         attacker["hitPoints"] = attacker["maxHitPoints"];
-        document.getElementById("p1HP").innerHTML = `HP - ${attacker["hitPoints"]}`;
+        document.getElementById("p1HP").innerHTML = `HP: ${attacker["hitPoints"]}`;
         attacker["healCounter"]--;
-        document.getElementById("heal").textContent = `Heal - ${attacker["healCounter"]}`;
+        document.getElementById("heal").textContent = `Heal: ${attacker["healCounter"]}`;
     };
 });
 
@@ -328,7 +309,7 @@ function winLose() {
         document.getElementById("combatTitle").textContent = "Final Battle";
         document.getElementById("combatName").innerHTML = defender2["name"];
         document.getElementById("combatProfile").innerHTML = defender2["pic"];
-        document.getElementById("combatHitPoints").innerHTML = `HP - ${defender2["hitPoints"]}`;
+        document.getElementById("combatHitPoints").innerHTML = `HP: ${defender2["hitPoints"]}`;
         document.getElementById('combatText1').textContent = `Prepare for the final battle`;
         document.getElementById("chooseTitle").textContent = `${attacker["name"]} versus ${defender2["name"]}`;
         combatant = defender2;
@@ -337,7 +318,7 @@ function winLose() {
         document.getElementById("combatTitle").textContent = "Final Battle";
         document.getElementById("combatName").innerHTML = defender1["name"];
         document.getElementById("combatProfile").innerHTML = defender1["pic"];
-        document.getElementById("combatHitPoints").innerHTML = `HP - ${defender1["hitPoints"]}`;
+        document.getElementById("combatHitPoints").innerHTML = `HP: ${defender1["hitPoints"]}`;
         document.getElementById('combatText1').textContent = `Prepare for the final battle`;
         document.getElementById("chooseTitle").textContent = `${attacker["name"]} versus ${defender1["name"]}`;
         combatant = defender1;
@@ -352,6 +333,7 @@ function winLose() {
         document.getElementById("combatant").style.display = 'none';
         document.getElementById("heal").style.display = 'none';
         document.getElementById("attack").style.display = 'none';
+        document.getElementById("special").style.display = 'none';
         document.getElementById("chooseTitle").style.display = 'none';
         document.getElementById("combatTitle").textContent = "You Win!";
         document.getElementById("playAgain").style.display = 'block';
@@ -365,6 +347,7 @@ function winLose() {
         document.getElementById("combatant").style.display = 'none';
         document.getElementById("heal").style.display = 'none';
         document.getElementById("attack").style.display = 'none';
+        document.getElementById("special").style.display = 'none';
         document.getElementById("chooseTitle").style.display = 'none';
         document.getElementById("combatTitle").textContent = "You Lose!";
         document.getElementById("playAgain").style.display = 'block';
@@ -376,14 +359,24 @@ $("#attack").on("click", function () {
     $("#combatText2").empty();
     $("#combatText3").empty();
     let yourAttack = attacker["attack"][Math.floor(Math.random() * attacker.attack.length)];
-    //let attackCounter = combatant["counterAttack"][Math.floor(Math.random() * combatant.counterAttack.length)];
     combatant["hitPoints"] = combatant["hitPoints"] - yourAttack;
-    //attacker["hitPoints"] = attacker["hitPoints"] - attackCounter;
-    document.getElementById("combatHitPoints").innerHTML = `HP - ${combatant["hitPoints"]}`;
-    //document.getElementById("p1HP").innerHTML = attacker["hitPoints"];
-    //document.getElementById('combatText1').textContent = `You attacked ${combatant["name"]} for ${yourAttack} damage and they hit you back for ${attackCounter}`;
+    document.getElementById("combatHitPoints").innerHTML = `HP: ${combatant["hitPoints"]}`;
     document.getElementById('combatText1').textContent = `You attacked ${combatant["name"]} for ${yourAttack} damage`;
     healCheck();
+});
+
+//special attack
+$("#special").on("click", function () {
+    if (attacker["specialCounter"] > 0) {
+    $("#combatText2").empty();
+    $("#combatText3").empty();
+    combatant["hitPoints"] = combatant["hitPoints"] - attacker["specialDamage"];
+    document.getElementById("combatHitPoints").innerHTML = `HP: ${combatant["hitPoints"]}`;
+    document.getElementById('combatText1').textContent = `You attacked ${combatant["name"]} with ${attacker["specialMove"]} for ${attacker["specialDamage"]} damage`;
+    attacker["specialCounter"]--;
+    document.getElementById("special").textContent = `${attacker["specialMove"]}: ${attacker["specialCounter"]}`;
+    healCheck();
+    };
 });
 
 
