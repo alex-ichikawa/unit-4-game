@@ -103,6 +103,8 @@ $("#p1Pic").on("click", function () {
         $("#p3Name").empty();
         $("#p3Pic").empty();
         $("#p3HP").empty();
+        document.getElementById("p2").style.display = 'none';
+        document.getElementById("p3").style.display = 'none';
         document.getElementById("defender1Name").innerHTML = defender1["name"];
         document.getElementById("defender1Profile").innerHTML = defender1["pic"];
         document.getElementById("defender1HitPoints").innerHTML = `HP - ${defender1["hitPoints"]}`;
@@ -131,6 +133,8 @@ $("#p2Pic").on("click", function () {
         $("#p3Name").empty();
         $("#p3Pic").empty();
         $("#p3HP").empty();
+        document.getElementById("p2").style.display = 'none';
+        document.getElementById("p3").style.display = 'none';
         document.getElementById("defender1Name").innerHTML = defender1["name"];
         document.getElementById("defender1Profile").innerHTML = defender1["pic"];
         document.getElementById("defender1HitPoints").innerHTML = `HP - ${defender1["hitPoints"]}`;
@@ -158,6 +162,8 @@ $("#p3Pic").on("click", function () {
         $("#p3Name").empty();
         $("#p3Pic").empty();
         $("#p3HP").empty();
+        document.getElementById("p2").style.display = 'none';
+        document.getElementById("p3").style.display = 'none';
         document.getElementById("defender1Name").innerHTML = defender1["name"];
         document.getElementById("defender1Profile").innerHTML = defender1["pic"];
         document.getElementById("defender1HitPoints").innerHTML = `HP - ${defender1["hitPoints"]}`;
@@ -337,24 +343,26 @@ function winLose() {
         combatant = defender1;
         winCounter++;
     } else if (winCounter === 1 && combatant["hitPoints"] <= 0) {
-        $("#combatName").empty();
+      /*  $("#combatName").empty();
         $("#combatProfile").empty();
-        $("#combatHitPoints").empty();
+        $("#combatHitPoints").empty();*/
         $("#combatText1").empty();
         $("#combatText2").empty();
         $("#combatText3").empty();
+        document.getElementById("combatant").style.display = 'none';
         document.getElementById("heal").style.display = 'none';
         document.getElementById("attack").style.display = 'none';
         document.getElementById("chooseTitle").style.display = 'none';
         document.getElementById("combatTitle").textContent = "You Win!";
         document.getElementById("playAgain").style.display = 'block';
     } else if (attacker["hitPoints"] <= 0) {
-        $("#combatName").empty();
+      /*  $("#combatName").empty();
         $("#combatProfile").empty();
-        $("#combatHitPoints").empty();
+        $("#combatHitPoints").empty(); */
         $("#combatText1").empty();
         $("#combatText2").empty();
         $("#combatText3").empty();
+        document.getElementById("combatant").style.display = 'none';
         document.getElementById("heal").style.display = 'none';
         document.getElementById("attack").style.display = 'none';
         document.getElementById("chooseTitle").style.display = 'none';
@@ -398,5 +406,8 @@ $("#playAgain").on("click", function () {
     defender2chosen = false;
     inCombat = false;
     winCounter = 0;
+    document.getElementById("p2").style.display = 'block';
+    document.getElementById("p3").style.display = 'block';
+    document.getElementById("combatant").style.display = 'block';
     startGame();
 });

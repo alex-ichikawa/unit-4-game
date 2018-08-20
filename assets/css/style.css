@@ -7,6 +7,22 @@
 .hp,
 .pic {
     background-color: #ffffff;
+    border-style: solid;
+    border-color: black;
+    border-width: 0px 2px 0px 2px;
+}
+
+.name,
+.hp {
+    font-weight: bold;
+}
+
+.name {
+    border-top: solid black 2px;
+}
+
+.hp {
+    border-bottom: solid black 2px;
 }
 
 button {
