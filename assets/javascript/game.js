@@ -1,3 +1,64 @@
+
+//audio files
+let startSound = document.createElement("audio")
+startSound.setAttribute("src", "assets/audio/startSound.mp3");
+
+let deadSelect = document.createElement("audio")
+deadSelect.setAttribute("src", "assets/audio/deadSelect.mp3");
+
+let wolverineSelect = document.createElement("audio")
+wolverineSelect.setAttribute("src", "assets/audio/wolverineSelect.mp3");
+
+let hulkSelect = document.createElement("audio")
+hulkSelect.setAttribute("src", "assets/audio/hulkSelect.mp3");
+
+let deadSpecial = document.createElement("audio")
+deadSpecial.setAttribute("src", "assets/audio/deadSpecial.mp3");
+
+let wolverineSpecial = document.createElement("audio")
+wolverineSpecial.setAttribute("src", "assets/audio/wolverineSpecial.mp3");
+
+let hulkSpecial = document.createElement("audio")
+hulkSpecial.setAttribute("src", "assets/audio/hulkSpecial.mp3");
+
+let deadLose = document.createElement("audio")
+deadLose.setAttribute("src", "assets/audio/deadLose.mp3");
+
+let wolverineLose = document.createElement("audio")
+wolverineLose.setAttribute("src", "assets/audio/wolverineLose.mp3");
+
+let hulkLose = document.createElement("audio")
+hulkLose.setAttribute("src", "assets/audio/hulkLose.mp3");
+
+let deadHeal = document.createElement("audio")
+deadHeal.setAttribute("src", "assets/audio/deadHeal.mp3");
+
+let wolverineHeal = document.createElement("audio")
+wolverineHeal.setAttribute("src", "assets/audio/wolverineHeal.mp3");
+
+let deadWin = document.createElement("audio")
+deadWin.setAttribute("src", "assets/audio/deadWin.mp3");
+
+let wolverineWin = document.createElement("audio")
+wolverineWin.setAttribute("src", "assets/audio/wolverineWin.mp3");
+
+let hulkWin = document.createElement("audio")
+hulkWin.setAttribute("src", "assets/audio/hulkWin.mp3");
+
+let punch1 = document.createElement("audio")
+punch1.setAttribute("src", "assets/audio/punch1.mp3");
+
+let punch2 = document.createElement("audio")
+punch2.setAttribute("src", "assets/audio/punch2.mp3");
+
+let punch3 = document.createElement("audio")
+punch3.setAttribute("src", "assets/audio/punch3.mp3");
+
+//punch sound arrays
+
+punches = [punch1, punch2, punch3];
+
+
 // Character Info
 let deadpool = {
     "name": "Deadpool",
@@ -13,6 +74,11 @@ let deadpool = {
     "specialMove": "Katana-Rama",
     "specialCounter": 1,
     "specialDamage": 150,
+    "selectAudio": deadSelect,
+    "specialAudio": deadSpecial,
+    "loseAudio": deadLose,
+    "healAudio": deadHeal,
+    "winAudio": deadWin,
 };
 
 let wolverine = {
@@ -23,12 +89,17 @@ let wolverine = {
     "healPoints": 100,
     "healCounter": 5,
     "maxHeals": 5,
-    "attack": [50, 55, 60, 65, 80, 100, 110, 115],
+    "attack": [75, 80, 100, 105, 110, 115],
     "counterAttack": [70, 75, 80, 95, 100],
     "pic": '<img src = "assets/images/wolverineProfile.jpg">',
     "specialMove": "Berserker Barrage",
     "specialCounter": 1,
     "specialDamage": 200,
+    "selectAudio": wolverineSelect,
+    "specialAudio": wolverineSpecial,
+    "loseAudio": wolverineLose,
+    "healAudio": wolverineHeal,
+    "winAudio": wolverineWin,
 };
 
 let hulk = {
@@ -43,6 +114,10 @@ let hulk = {
     "specialMove": "Hulk Smash",
     "specialCounter": 1,
     "specialDamage": 300,
+    "selectAudio": hulkSelect,
+    "specialAudio": hulkSpecial,
+    "loseAudio": hulkLose,
+    "winAudio": hulkWin,
 };
 
 //Store atacker and defender names
@@ -59,18 +134,7 @@ let defender2chosen = false;
 let inCombat = false;
 let winCounter = 0;
 
-//audio files
-let startSound = document.createElement("audio")
-startSound.setAttribute("src", "assets/audio/startSound.mp3")
 
-let deadSelect = document.createElement("audio")
-deadSelect.setAttribute("src", "assets/audio/deadSelect.mp3");
-
-let wolverineSelect = document.createElement("audio")
-wolverineSelect.setAttribute("src", "assets/audio/wolverineSelect.mp3");
-
-let hulkSelect = document.createElement("audio")
-hulkSelect.setAttribute("src", "assets/audio/hulkSelect.mp3")
 
 //Title Screen
 
@@ -119,7 +183,7 @@ $("#start").on("click", function() {
 //Character selection
 $("#p1Pic").on("click", function () {
     if (charChosen === false) {
-        deadSelect.play();
+        deadpool["selectAudio"].play();
         charChosen = true;
         attacker = deadpool;
         defender1 = wolverine;
@@ -147,7 +211,7 @@ $("#p1Pic").on("click", function () {
 
 $("#p2Pic").on("click", function () {
     if (charChosen === false) {
-        wolverineSelect.play();
+        wolverine["selectAudio"].play();
         charChosen = true;
         attacker = wolverine;
         defender1 = deadpool;
@@ -177,7 +241,7 @@ $("#p2Pic").on("click", function () {
 
 $("#p3Pic").on("click", function () {
     if (charChosen === false) {
-        hulkSelect.play();
+        hulk["selectAudio"].play();
         charChosen = true;
         attacker = hulk;
         defender1 = deadpool;
@@ -277,10 +341,11 @@ function healCheck() {
     } else counterAttack();
 };
 
-//computer counter attack
+//computer counter attack 
 function counterAttack() {
     if (combatant["hitPoints"] <= 0) {
         winLose();
+        //if random number is equal to 7 and speclial counter > 0 then performs special attack
     } else if ((Math.floor(Math.random() * 10)) === 7 && combatant["specialCounter"] > 0) {
         attacker["hitPoints"] = attacker["hitPoints"] - combatant["specialDamage"];
         document.getElementById("p1HP").innerHTML = `HP: ${attacker["hitPoints"]}`;
@@ -303,6 +368,7 @@ $("#heal").on("click", function () {
         $("#combatText3").empty();
         document.getElementById("combatText2").textContent = 'You are already at full health';
     } else if (attacker["healing"] === true && attacker["healCounter"] > 0 && attacker["hitPoints"] <= (attacker["maxHitPoints"] - attacker["healPoints"])) {
+        attacker["healAudio"].play();
         $("#combatText1").empty();
         $("#combatText3").empty();
         attacker["hitPoints"] = attacker["hitPoints"] + attacker["healPoints"];
@@ -311,6 +377,7 @@ $("#heal").on("click", function () {
         attacker["healCounter"]--;
         document.getElementById("heal").textContent = `Heal: ${attacker["healCounter"]}`;
     } else if (attacker["healing"] === true && attacker["healCounter"] > 0 && attacker["hitPoints"] > (attacker["maxHitPoints"] - attacker["healPoints"])) {
+        attacker["healAudio"].play();
         $("#combatText1").empty();
         $("#combatText3").empty();
         document.getElementById("combatText2").textContent = `You healed ${attacker["maxHitPoints"] - attacker["hitPoints"]} hit points`;
@@ -343,9 +410,7 @@ function winLose() {
         combatant = defender1;
         winCounter++;
     } else if (winCounter === 1 && combatant["hitPoints"] <= 0) {
-      /*  $("#combatName").empty();
-        $("#combatProfile").empty();
-        $("#combatHitPoints").empty();*/
+        attacker["winAudio"].play();
         $("#combatText1").empty();
         $("#combatText2").empty();
         $("#combatText3").empty();
@@ -357,9 +422,7 @@ function winLose() {
         document.getElementById("combatTitle").textContent = "You Win!";
         document.getElementById("playAgain").style.display = 'block';
     } else if (attacker["hitPoints"] <= 0) {
-      /*  $("#combatName").empty();
-        $("#combatProfile").empty();
-        $("#combatHitPoints").empty(); */
+        attacker["loseAudio"].play();
         $("#combatText1").empty();
         $("#combatText2").empty();
         $("#combatText3").empty();
@@ -375,6 +438,7 @@ function winLose() {
 
 //attack button
 $("#attack").on("click", function () {
+    punches[(Math.floor(Math.random() * punches.length))].play();
     $("#combatText2").empty();
     $("#combatText3").empty();
     let yourAttack = attacker["attack"][Math.floor(Math.random() * attacker.attack.length)];
@@ -387,6 +451,7 @@ $("#attack").on("click", function () {
 //special attack
 $("#special").on("click", function () {
     if (attacker["specialCounter"] > 0) {
+    attacker["specialAudio"].play();
     $("#combatText2").empty();
     $("#combatText3").empty();
     combatant["hitPoints"] = combatant["hitPoints"] - attacker["specialDamage"];
@@ -403,9 +468,12 @@ $("#special").on("click", function () {
 $("#playAgain").on("click", function () {
     deadpool["hitPoints"] = deadpool["maxHitPoints"];
     deadpool["healCounter"] = deadpool["maxHeals"];
+    deadpool["specialCounter"] = 1;
     wolverine["hitPoints"] = wolverine["maxHitPoints"];
     wolverine["healCounter"] = wolverine["maxHeals"];
-    hulk["hitPoints"] = hulk["maxHitPoints"];
+    wolverine["specialCounter"] = 1;
+    hulk["hitPoints"] = hulk["maxHitPoints"];   
+    hulk["specialCounter"] = 1;
     attacker = [];
     defender1 = [];
     defender2 = [];
