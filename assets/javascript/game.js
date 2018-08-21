@@ -347,6 +347,7 @@ function counterAttack() {
         winLose();
         //if random number is equal to 7 and speclial counter > 0 then performs special attack
     } else if ((Math.floor(Math.random() * 10)) === 7 && combatant["specialCounter"] > 0) {
+        combatant["specialAudio"].play();
         attacker["hitPoints"] = attacker["hitPoints"] - combatant["specialDamage"];
         document.getElementById("p1HP").innerHTML = `HP: ${attacker["hitPoints"]}`;
         document.getElementById('combatText3').textContent = `${combatant["name"]} hit you with ${combatant["specialMove"]} for ${combatant["specialDamage"]} damage`;
@@ -423,15 +424,15 @@ function winLose() {
         document.getElementById("playAgain").style.display = 'block';
     } else if (attacker["hitPoints"] <= 0) {
         attacker["loseAudio"].play();
-        $("#combatText1").empty();
-        $("#combatText2").empty();
-        $("#combatText3").empty();
+        //$("#combatText1").empty();
+        //$("#combatText2").empty();
+        //$("#combatText3").empty();
         document.getElementById("combatant").style.display = 'none';
         document.getElementById("heal").style.display = 'none';
         document.getElementById("attack").style.display = 'none';
         document.getElementById("special").style.display = 'none';
-        document.getElementById("chooseTitle").style.display = 'none';
-        document.getElementById("combatTitle").textContent = "You Lose!";
+        document.getElementById("combatTitle").style.display = 'none';
+        document.getElementById("chooseTitle").textContent = "You Lose!";
         document.getElementById("playAgain").style.display = 'block';
     }
 };
