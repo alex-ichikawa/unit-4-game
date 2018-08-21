@@ -492,3 +492,5 @@ $("#playAgain").on("click", function () {
     document.getElementById("combatant").style.display = 'block';
     startGame();
 });
+
+//test
