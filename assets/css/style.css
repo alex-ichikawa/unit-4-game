@@ -59,3 +59,23 @@ button {
 		-1px 1px 0 #000,
 		1px 1px 0 #000;
 }
+
+.selected {
+    background-color: red;
+    border-style: solid;
+    border-color: black;
+    border-width: 0px 2px 0px 2px;
+ }
+
+.name.selected {
+    border-top: solid black 2px;
+}
+
+.hp.selected {
+    border-bottom: solid black 2px;
+}
+
+.actButn {
+    margin-left: 10px;
+    min-width: 180px;
+}

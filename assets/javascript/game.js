@@ -79,6 +79,8 @@ let deadpool = {
     "loseAudio": deadLose,
     "healAudio": deadHeal,
     "winAudio": deadWin,
+    "choice1": false,
+    "choice2": false,
 };
 
 let wolverine = {
@@ -100,6 +102,8 @@ let wolverine = {
     "loseAudio": wolverineLose,
     "healAudio": wolverineHeal,
     "winAudio": wolverineWin,
+    "choice1": false,
+    "choice2": false,
 };
 
 let hulk = {
@@ -109,7 +113,6 @@ let hulk = {
     "healing": false,
     "attack": [90, 100, 110, 150],
     "counterAttack": [80, 95, 100, 110],
-    "2ndLife": false,
     "pic": '<img src = "assets/images/hulkProfile.jpg">',
     "specialMove": "Hulk Smash",
     "specialCounter": 1,
@@ -118,14 +121,39 @@ let hulk = {
     "specialAudio": hulkSpecial,
     "loseAudio": hulkLose,
     "winAudio": hulkWin,
+    "choice1": false,
+    "choice2": false,
+};
+
+let ironMan ={
+    "name": "Iron Man",
+    "hitPoints": 600,
+    "maxHitPoints": 600,
+    "healing": false,
+    "attack": [90, 100, 110, 150],
+    "counterAttack": [80, 95, 100, 110],
+    "pic": '<img src = "assets/images/hulkProfile.jpg">',
+    "specialMove": "Hulk Smash",
+    "specialCounter": 1,
+    "specialDamage": 300,
+    "selectAudio": hulkSelect,
+    "specialAudio": hulkSpecial,
+    "loseAudio": hulkLose,
+    "winAudio": hulkWin,
+    "choice1": false,
+    "choice2": false,
 };
 
 //Store atacker and defender names
 let attacker = [];
+let attacker2 = [];
+let clickName = [];
+let clicked = [];
 let defender1 = [];
 let defender2 = [];
 let combatant = [];
 let charChosen = false;
+let charChosen2 = false;
 let opp1Chosen = false;
 let opp2Chosen = false;
 let opp1Defeated = false;
@@ -133,8 +161,12 @@ let defender1chosen = false;
 let defender2chosen = false;
 let inCombat = false;
 let winCounter = 0;
-
-
+let charArray = [deadpool, wolverine, hulk, ironMan];
+let combatant1 = [];
+let combatant2 = [];
+let enemyAttacked = [];
+let attacking = [];
+let lossCounter = 0;
 
 //Title Screen
 
@@ -164,6 +196,9 @@ function startGame() {
     document.getElementById("p3Name").innerHTML = hulk["name"];
     document.getElementById("p3Pic").innerHTML = hulk["pic"];
     document.getElementById("p3HP").innerHTML = `HP: ${hulk["hitPoints"]}`;
+    document.getElementById("p4Name").innerHTML = ironMan["name"];
+    document.getElementById("p4Pic").innerHTML = ironMan["pic"];
+    document.getElementById("p4HP").innerHTML = `HP: ${ironMan["hitPoints"]}`;
     document.getElementById("defender-row").style.display = 'none';
     document.getElementById("combat-row").style.display = 'none';
     document.getElementById("playAgain").style.display = 'none';
@@ -180,15 +215,120 @@ $("#start").on("click", function() {
     startGame();
 });
 
+//combat row set up
+function combatRowSetup() {
+    document.getElementById("combatName").innerHTML = combatant1["name"];
+    document.getElementById("combatProfile").innerHTML = combatant1["pic"];
+    document.getElementById("combatHitPoints").innerHTML = `HP: ${combatant1["hitPoints"]}`;
+    document.getElementById("combatant").className = `col-3 text-center combatant ${combatant1["name"]}`;
+    document.getElementById("combatName2").innerHTML = combatant2["name"];
+    document.getElementById("combatProfile2").innerHTML = combatant2["pic"];
+    document.getElementById("combatHitPoints2").innerHTML = `HP: ${combatant2["hitPoints"]}`;
+    document.getElementById("combatant2").className = `col-3 text-center combatant ${combatant2["name"]}`;
+    document.getElementById("combat-row").style.display = 'inline-flex';
+    document.getElementById("combatant-row").style.display = 'inline-flex';
+    document.getElementById("attackBut").style.display = 'block';
+    document.getElementById("attackBut2").style.display = 'block';
+    if (attacker["healing"] === false) {
+        document.getElementById("heal").style.display = 'none';
+        document.getElementById("special").textContent = `${attacker["specialMove"]}: ${attacker["specialCounter"]}`;
+    } else {
+        document.getElementById("heal").textContent = `Heal: ${attacker["healCounter"]}`;
+        document.getElementById("special").textContent = `${attacker["specialMove"]}: ${attacker["specialCounter"]}`;
+    };
+    if (attacker2["healing"] === false) {
+        document.getElementById("heal2").style.display = 'none';
+        document.getElementById("special2").textContent = `${attacker2["specialMove"]}: ${attacker2["specialCounter"]}`;
+    } else {
+        document.getElementById("heal2").textContent = `Heal: ${attacker2["healCounter"]}`;
+        document.getElementById("special2").textContent = `${attacker2["specialMove"]}: ${attacker2["specialCounter"]}`;
+    };
+
+};
+
+//remove attacker 1 from charArray
+function removeAttk1() {
+    let i = charArray.indexOf(attacker);
+    charArray.splice(i, 1);
+};
+
+//remove attacker 2 from charArray
+function removeAttk2() {
+    let i = charArray.indexOf(attacker2);
+    charArray.splice(i, 1);
+    charRowSetup();
+};
+
+//sets up top row afte selecting 2 characters
+function charRowSetup() {
+    document.getElementById("p1Name").innerHTML = attacker["name"];
+    document.getElementById("p1Pic").innerHTML = attacker["pic"];
+    document.getElementById("p1HP").innerHTML = `HP: ${attacker["hitPoints"]}`;
+    document.getElementById("p1").className = `col-3 text-center ${attacker["name"]}`;
+    document.getElementById("p2Name").innerHTML = attacker2["name"];
+    document.getElementById("p2Pic").innerHTML = attacker2["pic"];
+    document.getElementById("p2HP").innerHTML = `HP: ${attacker2["hitPoints"]}`;
+    document.getElementById("p2").className = `col-3 text-center ${attacker2["name"]}`;
+    defenderSelection();
+};
+
+//combatant selection
+function defenderSelection() {
+combatant1 = charArray[0];
+combatant2 = charArray[1];
+combatRowSetup();
+};
+
+//character slection function
+function charSelect() {
+    if (charChosen === false) {
+        charChosen = true;
+        clicked["choice1"] = true;
+        attacker["choice1"] = true;
+        attacker = clicked;
+    } else if (charChosen === true && attacker["name"] === clicked["name"] && charChosen2 === false) {
+        charChosen = false;
+        attacker["choice1"] = false;
+        attcker = [];
+        clicked = [];
+        clickName = [];
+        document.getElementById("p1Name").className = "name";//removes class for css to unhighlight selected
+        document.getElementById("p1HP").className = "hp";//removes class for css to unhighlight selected
+    } else if (charChosen === true && charChosen2 === false && attacker["choice1"] === true && clickName != attacker["name"]) {
+        charChosen2 = true;
+        attacker2 = clicked;
+        clicked["choice2"] = true;
+        $("#p3Name").empty();
+        $("#p3Pic").empty();
+        $("#p3HP").empty();
+        $("#p4Name").empty();
+        $("#p4Pic").empty();
+        $("#p4HP").empty();
+        document.getElementById("p3").style.display = 'none';
+        document.getElementById("p4").style.display = 'none';
+        document.getElementById("p1Name").className = "name selected"; //add class for css to highlight selected
+        document.getElementById("p1HP").className = "hp selected"; //add class for css to highlight selected
+        document.getElementById("p2Name").className = "name selected"; //add class for css to highlight selected
+        document.getElementById("p2HP").className = "hp selected"; //add class for css to highlight selected
+        removeAttk1();
+        removeAttk2();
+    };
+};
+
+
 //Character selection
 $("#p1Pic").on("click", function () {
-    if (charChosen === false) {
+    if (charChosen2 === false) {
         deadpool["selectAudio"].play();
-        charChosen = true;
-        attacker = deadpool;
-        defender1 = wolverine;
-        defender2 = hulk;
-        $("#p2Name").empty();
+        //attacker = deadpool;
+        clickName = deadpool["name"];
+        clicked = deadpool;
+        //deadpool["choice1"] = true;
+        //defender1 = wolverine;
+       // defender2 = hulk;
+        document.getElementById("p1Name").className = "name selected"; //add class for css to highlight selected
+        document.getElementById("p1HP").className = "hp selected"; //add class for css to highlight selected
+       /* $("#p2Name").empty();
         $("#p2Pic").empty();
         $("#p2HP").empty();
         $("#p3Name").empty();
@@ -204,22 +344,28 @@ $("#p1Pic").on("click", function () {
         document.getElementById("defender2HitPoints").innerHTML = `HP: ${defender2["hitPoints"]}`;
         document.getElementById("defender-row").style.display = 'block';
         document.getElementById("chooseTitle").textContent = "Your Character";
-        document.getElementById("special").textContent = `${attacker["specialMove"]}: ${attacker["specialCounter"]}`;
+        document.getElementById("special").textContent = `${attacker["specialMove"]}: ${attacker["specialCounter"]}`; */
+        charSelect();
 
     };
 });
 
 $("#p2Pic").on("click", function () {
-    if (charChosen === false) {
+    if (charChosen2 === false) {
         wolverine["selectAudio"].play();
-        charChosen = true;
-        attacker = wolverine;
-        defender1 = deadpool;
-        defender2 = hulk;
-        document.getElementById("p1Name").innerHTML = attacker["name"];
+        //charChosen = true;
+        //attacker = wolverine;
+        clickName = wolverine["name"];
+        clicked = wolverine;
+       // wolverine["choice1"] = true
+        //defender1 = deadpool;
+        //defender2 = hulk;
+        document.getElementById("p2Name").className = "name selected"; //add class for css to highlight selected
+        document.getElementById("p2HP").className = "hp selected"; //add class for css to highlight selected
+      /*  document.getElementById("p1Name").innerHTML = attacker["name"];
         document.getElementById("p1Pic").innerHTML = attacker["pic"];
         document.getElementById("p1HP").innerHTML = `HP: ${attacker["hitPoints"]}`;
-        $("#p2Name").empty();
+       $("#p2Name").empty();
         $("#p2Pic").empty();
         $("#p2HP").empty();
         $("#p3Name").empty();
@@ -235,18 +381,24 @@ $("#p2Pic").on("click", function () {
         document.getElementById("defender2HitPoints").innerHTML = `HP: ${defender2["hitPoints"]}`;
         document.getElementById("defender-row").style.display = 'block';
         document.getElementById("chooseTitle").textContent = "Your Character";
-        document.getElementById("special").textContent = `${attacker["specialMove"]}: ${attacker["specialCounter"]}`;
+        document.getElementById("special").textContent = `${attacker["specialMove"]}: ${attacker["specialCounter"]}`; */
+        charSelect();
     };
 });
 
 $("#p3Pic").on("click", function () {
-    if (charChosen === false) {
+    if (charChosen2 === false) {
         hulk["selectAudio"].play();
-        charChosen = true;
-        attacker = hulk;
-        defender1 = deadpool;
-        defender2 = wolverine;
-        document.getElementById("p1Name").innerHTML = attacker["name"];
+       // charChosen = true;
+        //attacker = hulk;
+        clickName = hulk["name"];
+        clicked = hulk;
+        //hulk["choice1"] = true
+       // defender1 = deadpool;
+       // defender2 = wolverine;
+        document.getElementById("p3Name").className = "name selected"; //add class for css to highlight selected
+        document.getElementById("p3HP").className = "hp selected"; //add class for css to highlight selected
+      /*document.getElementById("p1Name").innerHTML = attacker["name"];
         document.getElementById("p1Pic").innerHTML = attacker["pic"];
         document.getElementById("p1HP").innerHTML = `HP: ${attacker["hitPoints"]}`;
         $("#p2Name").empty();
@@ -265,13 +417,16 @@ $("#p3Pic").on("click", function () {
         document.getElementById("defender2HitPoints").innerHTML = `HP: ${defender2["hitPoints"]}`;
         document.getElementById("defender-row").style.display = 'block';
         document.getElementById("chooseTitle").textContent = "Your Character";
-        document.getElementById("special").textContent = `${attacker["specialMove"]}: ${attacker["specialCounter"]}`;
+        document.getElementById("special").textContent = `${attacker["specialMove"]}: ${attacker["specialCounter"]}`; */
+        charSelect();
+
+        //Add Iron Man---------------------------------------------------------------------------------------------------------------------------
     };
 });
 
 //chose first opponent
 
-$("#defender1Profile").on("click", function () {
+/*$("#defender1Profile").on("click", function () {
     if (charChosen === true && opp1Chosen === false) {
         opp1Chosen = true;
         defender1chosen = true;
@@ -326,44 +481,45 @@ $("#defender2Profile").on("click", function () {
             document.getElementById("special").style.display = 'inline';
         };
     };
-});
+});*/
 
 //Combat
 
 //defender auto heals when health is below 50 and above 0
 function healCheck() {
-    if (combatant["healing"] === true && combatant["hitPoints"] < 75 && combatant["healCounter"] > 0 && combatant["hitPoints"] > 0) {
-        combatant["hitPoints"] = combatant["hitPoints"] + combatant["healPoints"];
-        document.getElementById("combatHitPoints").innerHTML = `HP: ${combatant["hitPoints"]}`;
-        document.getElementById("combatText2").textContent = `${combatant["name"]} used their super heaing and healed ${combatant["healPoints"]} hit points!`;
-        combatant["healCounter"]--;
+    if (enemyAttacked["healing"] === true && enemyAttacked["hitPoints"] < 75 && enemyAttacked["healCounter"] > 0 && enemyAttacked["hitPoints"] > 0) {
+        enemyAttacked["hitPoints"] = enemyAttacked["hitPoints"] + enemyAttacked["healPoints"];
+        document.getElementById("combatHitPoints").innerHTML = `HP: ${enemyAttacked["hitPoints"]}`;
+        document.getElementById("combatText2").textContent = `${enemyAttacked["name"]} used their super heaing and healed ${enemyAttacked["healPoints"]} hit points!`;
+        enemyAttacked["healCounter"]--;
         counterAttack();
     } else counterAttack();
 };
 
 //computer counter attack 
 function counterAttack() {
-    if (combatant["hitPoints"] <= 0) {
+    if (enemyAttacked["hitPoints"] <= 0) {
         winLose();
         //if random number is equal to 7 and speclial counter > 0 then performs special attack
-    } else if ((Math.floor(Math.random() * 10)) === 7 && combatant["specialCounter"] > 0) {
-        combatant["specialAudio"].play();
-        attacker["hitPoints"] = attacker["hitPoints"] - combatant["specialDamage"];
-        document.getElementById("p1HP").innerHTML = `HP: ${attacker["hitPoints"]}`;
-        document.getElementById('combatText3').textContent = `${combatant["name"]} hit you with ${combatant["specialMove"]} for ${combatant["specialDamage"]} damage`;
-        combatant["specialCounter"]--;
+    } else if ((Math.floor(Math.random() * 10)) === 7 && enemyAttacked["specialCounter"] > 0) {
+        enemyAttacked["specialAudio"].play();
+        attacking["hitPoints"] = attacking["hitPoints"] - enemyAttacked["specialDamage"];
+        document.getElementById("p1HP").innerHTML = `HP: ${attacking["hitPoints"]}`;
+        document.getElementById('combatText3').textContent = `${enemyAttacked["name"]} hit you with ${enemyAttacked["specialMove"]} for ${enemyAttacked["specialDamage"]} damage`;
+        enemyAttacked["specialCounter"]--;
         winLose();
     } else {
-        let attackCounter = combatant["counterAttack"][Math.floor(Math.random() * combatant.counterAttack.length)];
-        attacker["hitPoints"] = attacker["hitPoints"] - attackCounter;
-        document.getElementById("p1HP").innerHTML = `HP: ${attacker["hitPoints"]}`;
-        document.getElementById('combatText3').textContent = `${combatant["name"]} hit your for ${attackCounter} damage`;
+        let attackCounter = enemyAttacked["counterAttack"][Math.floor(Math.random() * enemyAttacked.counterAttack.length)];
+        attacking["hitPoints"] = attacking["hitPoints"] - attackCounter;
+        document.getElementById("p1HP").innerHTML = `HP: ${attacking["hitPoints"]}`;
+        document.getElementById('combatText3').textContent = `${enemyAttacked["name"]} hit your for ${attackCounter} damage`;
         winLose();
     };
 };
 
 //player healing logic
 $("#heal").on("click", function () {
+    if (enemyAttacked)
     if (attacker["healing"] === true && attacker["healCounter"] > 0 && attacker["hitPoints"] === attacker["maxHitPoints"]) {
         $("#combatText1").empty();
         $("#combatText3").empty();
@@ -392,16 +548,19 @@ $("#heal").on("click", function () {
 //winLose logic
 
 function winLose() {
-    if (defender1chosen === true && winCounter === 0 && combatant["hitPoints"] <= 0) {
-        document.getElementById("combatTitle").textContent = "Final Battle";
+    if (winCounter === 0 && enemyAttacked["hitPoints"] <= 0) {
+        console.log(enemyAttacked);
+        document.getElementsByClassName(`col-3 text-center combatant ${enemyAttacked["name"]}`)[0].style.display = 'none';
+        enemyAttacked["loseAudio"].play();
+       /* document.getElementById("combatTitle").textContent = "Final Battle";
         document.getElementById("combatName").innerHTML = defender2["name"];
         document.getElementById("combatProfile").innerHTML = defender2["pic"];
         document.getElementById("combatHitPoints").innerHTML = `HP: ${defender2["hitPoints"]}`;
         document.getElementById('combatText1').textContent = `Prepare for the final battle`;
         document.getElementById("chooseTitle").textContent = `${attacker["name"]} versus ${defender2["name"]}`;
-        combatant = defender2;
+        combatant = defender2;*/
         winCounter++;
-    } else if (defender2chosen === true && winCounter === 0 && combatant["hitPoints"] <= 0) {
+    /*} else if (defender2chosen === true && winCounter === 0 && combatant["hitPoints"] <= 0) {
         document.getElementById("combatTitle").textContent = "Final Battle";
         document.getElementById("combatName").innerHTML = defender1["name"];
         document.getElementById("combatProfile").innerHTML = defender1["pic"];
@@ -409,9 +568,9 @@ function winLose() {
         document.getElementById('combatText1').textContent = `Prepare for the final battle`;
         document.getElementById("chooseTitle").textContent = `${attacker["name"]} versus ${defender1["name"]}`;
         combatant = defender1;
-        winCounter++;
-    } else if (winCounter === 1 && combatant["hitPoints"] <= 0) {
-        attacker["winAudio"].play();
+        winCounter++;*/
+    } else if (winCounter === 1 && enemyAttacked["hitPoints"] <= 0) {
+        attacking["winAudio"].play();
         $("#combatText1").empty();
         $("#combatText2").empty();
         $("#combatText3").empty();
@@ -420,10 +579,30 @@ function winLose() {
         document.getElementById("attack").style.display = 'none';
         document.getElementById("special").style.display = 'none';
         document.getElementById("chooseTitle").style.display = 'none';
+        document.getElementById("combatant2").style.display = 'none';
+        document.getElementById("heal2").style.display = 'none';
+        document.getElementById("attack2").style.display = 'none';
+        document.getElementById("special2").style.display = 'none';
+        document.getElementById("chooseTitle").style.display = 'none';
         document.getElementById("combatTitle").textContent = "You Win!";
         document.getElementById("playAgain").style.display = 'block';
     } else if (attacker["hitPoints"] <= 0) {
-        attacker["loseAudio"].play();
+        document.getElementsByClassName(`col-3 text-center combatant ${attacking["name"]}`)[0].style.display = 'none';
+        attacking["loseAudio"].play();
+        lossCounter++;
+        //$("#combatText1").empty();
+        //$("#combatText2").empty();
+        //$("#combatText3").empty();
+       /* document.getElementById("combatant").style.display = 'none';
+        document.getElementById("heal").style.display = 'none';
+        document.getElementById("attack").style.display = 'none';
+        document.getElementById("special").style.display = 'none';
+        document.getElementById("combatTitle").style.display = 'none';
+        document.getElementById("chooseTitle").textContent = "You Lose!";
+        document.getElementById("playAgain").style.display = 'block';*/
+    } else if (attacker["hitPoints"] <= 0 && lossCounter === 1) {
+        document.getElementsByClassName(`col-3 text-center combatant ${attacking["name"]}`)[0].style.display = 'none';
+        attacking["loseAudio"].play();
         //$("#combatText1").empty();
         //$("#combatText2").empty();
         //$("#combatText3").empty();
@@ -431,23 +610,71 @@ function winLose() {
         document.getElementById("heal").style.display = 'none';
         document.getElementById("attack").style.display = 'none';
         document.getElementById("special").style.display = 'none';
+        document.getElementById("heal2").style.display = 'none';
+        document.getElementById("attack2").style.display = 'none';
+        document.getElementById("special2").style.display = 'none';
         document.getElementById("combatTitle").style.display = 'none';
         document.getElementById("chooseTitle").textContent = "You Lose!";
         document.getElementById("playAgain").style.display = 'block';
+    } else {
+        enemyAttacked = [];
+        attacking = [];
     }
+};
+
+//enemy 1 to attack
+$("#combatProfile").on("click", function() {
+    enemyAttacked = combatant1;
+    enemyToAttack();
+})
+
+//enemy 2 to attack
+$("#combatProfile2").on("click", function() {
+    enemyAttacked = combatant2;
+    enemyToAttack();
+})
+
+//enemy attack selection
+function enemyToAttack() {
+    punches[(Math.floor(Math.random() * punches.length))].play();
+    let yourAttack = attacking["attack"][Math.floor(Math.random() * attacking.attack.length)];
+    enemyAttacked["hitPoints"] = enemyAttacked["hitPoints"] - yourAttack;
+    document.getElementById("combatHitPoints").innerHTML = `HP: ${enemyAttacked["hitPoints"]}`;
+    document.getElementById('combatText1').textContent = `You attacked ${enemyAttacked["name"]} for ${yourAttack} damage`;
+    document.getElementById('combatText1').textContent = `Select enemy to attack`;
+    healCheck();
+    console.log(combatant1["name"]);
+    console.log(enemyAttacked);
+    console.log(attacker);
+    console.log(attacking);
 };
 
 //attack button
 $("#attack").on("click", function () {
-    punches[(Math.floor(Math.random() * punches.length))].play();
+   // punches[(Math.floor(Math.random() * punches.length))].play();
     $("#combatText2").empty();
     $("#combatText3").empty();
-    let yourAttack = attacker["attack"][Math.floor(Math.random() * attacker.attack.length)];
-    combatant["hitPoints"] = combatant["hitPoints"] - yourAttack;
-    document.getElementById("combatHitPoints").innerHTML = `HP: ${combatant["hitPoints"]}`;
-    document.getElementById('combatText1').textContent = `You attacked ${combatant["name"]} for ${yourAttack} damage`;
-    healCheck();
+    attacking = attacker;
+    //let yourAttack = attacker["attack"][Math.floor(Math.random() * attacker.attack.length)];
+    //combatant["hitPoints"] = combatant["hitPoints"] - yourAttack;
+    //document.getElementById("combatHitPoints").innerHTML = `HP: ${combatant["hitPoints"]}`;
+    //document.getElementById('combatText1').textContent = `You attacked ${combatant["name"]} for ${yourAttack} damage`;
+    //document.getElementById('combatText1').textContent = `Select enemy to attack`;
+    //healCheck();
 });
+
+$("#attack2").on("click", function () {
+    // punches[(Math.floor(Math.random() * punches.length))].play();
+     $("#combatText2").empty();
+     $("#combatText3").empty();
+     attacking = attacker2;
+     //let yourAttack = attacker["attack"][Math.floor(Math.random() * attacker.attack.length)];
+     //combatant["hitPoints"] = combatant["hitPoints"] - yourAttack;
+     //document.getElementById("combatHitPoints").innerHTML = `HP: ${combatant["hitPoints"]}`;
+     //document.getElementById('combatText1').textContent = `You attacked ${combatant["name"]} for ${yourAttack} damage`;
+     //document.getElementById('combatText1').textContent = `Select enemy to attack`;
+     //healCheck();
+ });
 
 //special attack
 $("#special").on("click", function () {
@@ -492,5 +719,3 @@ $("#playAgain").on("click", function () {
     document.getElementById("combatant").style.display = 'block';
     startGame();
 });
-
-//test
