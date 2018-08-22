@@ -12,6 +12,9 @@ wolverineSelect.setAttribute("src", "assets/audio/wolverineSelect.mp3");
 let hulkSelect = document.createElement("audio")
 hulkSelect.setAttribute("src", "assets/audio/hulkSelect.mp3");
 
+let ironManSelect = document.createElement("audio")
+ironManSelect.setAttribute("src", "assets/audio/ironManSelect.mp3");
+
 let deadSpecial = document.createElement("audio")
 deadSpecial.setAttribute("src", "assets/audio/deadSpecial.mp3");
 
@@ -21,6 +24,9 @@ wolverineSpecial.setAttribute("src", "assets/audio/wolverineSpecial.mp3");
 let hulkSpecial = document.createElement("audio")
 hulkSpecial.setAttribute("src", "assets/audio/hulkSpecial.mp3");
 
+let ironManSpecial = document.createElement("audio")
+ironManSpecial.setAttribute("src", "assets/audio/ironManSpecial.mp3");
+
 let deadLose = document.createElement("audio")
 deadLose.setAttribute("src", "assets/audio/deadLose.mp3");
 
@@ -29,6 +35,9 @@ wolverineLose.setAttribute("src", "assets/audio/wolverineLose.mp3");
 
 let hulkLose = document.createElement("audio")
 hulkLose.setAttribute("src", "assets/audio/hulkLose.mp3");
+
+let ironManLose = document.createElement("audio")
+ironManLose.setAttribute("src", "assets/audio/ironManLose.mp3");
 
 let deadHeal = document.createElement("audio")
 deadHeal.setAttribute("src", "assets/audio/deadHeal.mp3");
@@ -44,6 +53,9 @@ wolverineWin.setAttribute("src", "assets/audio/wolverineWin.mp3");
 
 let hulkWin = document.createElement("audio")
 hulkWin.setAttribute("src", "assets/audio/hulkWin.mp3");
+
+let ironManWin = document.createElement("audio")
+ironManWin.setAttribute("src", "assets/audio/ironManWin.mp3");
 
 let punch1 = document.createElement("audio")
 punch1.setAttribute("src", "assets/audio/punch1.mp3");
@@ -115,8 +127,8 @@ let hulk = {
     "counterAttack": [80, 95, 100, 110],
     "pic": '<img src = "assets/images/hulkProfile.jpg">',
     "specialMove": "Hulk Smash",
-    "specialCounter": 1,
-    "specialDamage": 300,
+    "specialCounter": 2,
+    "specialDamage": 225,
     "selectAudio": hulkSelect,
     "specialAudio": hulkSpecial,
     "loseAudio": hulkLose,
@@ -132,14 +144,14 @@ let ironMan ={
     "healing": false,
     "attack": [90, 100, 110, 150],
     "counterAttack": [80, 95, 100, 110],
-    "pic": '<img src = "assets/images/hulkProfile.jpg">',
-    "specialMove": "Hulk Smash",
-    "specialCounter": 1,
-    "specialDamage": 300,
-    "selectAudio": hulkSelect,
-    "specialAudio": hulkSpecial,
-    "loseAudio": hulkLose,
-    "winAudio": hulkWin,
+    "pic": '<img src = "assets/images/ironManProfile.jpg">',
+    "specialMove": "Proton Cannon",
+    "specialCounter": 2,
+    "specialDamage": 200,
+    "selectAudio": ironManSelect,
+    "specialAudio": ironManSpecial,
+    "loseAudio": ironManLose,
+    "winAudio": ironManWin,
     "choice1": false,
     "choice2": false,
 };
@@ -189,6 +201,10 @@ function startGame() {
 
     
     startSound.play();
+    document.getElementById("p1").style.visibility = 'visible';
+    document.getElementById("p2").style.visibility = 'visible';
+    document.getElementById("p3").style.visibility = 'visible';
+    document.getElementById("p4").style.visibility = 'visible';
     document.getElementById("p1Name").innerHTML = deadpool["name"];
     document.getElementById("p1Pic").innerHTML = deadpool["pic"];
     document.getElementById("p1HP").innerHTML = `HP: ${deadpool["hitPoints"]}`;
@@ -204,7 +220,7 @@ function startGame() {
     document.getElementById("defender-row").style.display = 'none';
     document.getElementById("combat-row").style.display = 'none';
     document.getElementById("playAgain").style.display = 'none';
-    document.getElementById("chooseTitle").textContent = "Choose your Character";
+    document.getElementById("chooseTitle").textContent = "Choose two Characters";
     document.getElementById("chooseTitle").style.display = 'block';
     document.getElementById('top-row').style.display = 'inline-block';
     document.getElementById("charRow").style.display = 'inline-flex';
@@ -220,6 +236,8 @@ $("#start").on("click", function() {
 
 //combat row set up
 function combatRowSetup() {
+    document.getElementById("combat-row").style.display = 'inline-block';
+    document.getElementById("combatant-row").style.display = 'inline-flex';
     document.getElementById("combatName").innerHTML = combatant1["name"];
     document.getElementById("combatProfile").innerHTML = combatant1["pic"];
     document.getElementById("combatHitPoints").innerHTML = `HP: ${combatant1["hitPoints"]}`;
@@ -232,8 +250,6 @@ function combatRowSetup() {
     document.getElementById("combatName2").className = `name combatant ${combatant2["name"]}`;
     document.getElementById("combatProfile2").className = `pic combatant ${combatant2["name"]}`;
     document.getElementById("combatHitPoints2").className = `hp combatant ${combatant2["name"]}`;
-    document.getElementById("combat-row").style.display = 'inline-block';
-    document.getElementById("combatant-row").style.display = 'inline-flex';
     document.getElementById("attackBut").style.display = 'block';
     document.getElementById("attackBut2").style.display = 'block';
     document.getElementById("chooseTitle").textContent = `${attacker["name"]} and ${attacker2["name"]} VS ${combatant1["name"]} and ${combatant2["name"]}`;
@@ -279,7 +295,6 @@ function charRowSetup() {
     document.getElementById("attack").className = `actButn attack ${attacker["name"]}`;
     document.getElementById("special").className = `actButn special ${attacker["name"]}`;
     document.getElementById("heal").className = `actButn heal ${attacker["name"]}`;
-   // document.getElementById("p1name").className = `p1Name ${attacker["name"]}`;
     document.getElementById("p2Name").innerHTML = attacker2["name"];
     document.getElementById("p2Pic").innerHTML = attacker2["pic"];
     document.getElementById("p2HP").innerHTML = `HP: ${attacker2["hitPoints"]}`;
@@ -304,15 +319,12 @@ function charSelect() {
         charChosen = true;
         attacker = clicked;
         clicked["choice1"] = true;
-        //attacker["choice1"] = true;
     } else if (charChosen === true && attacker["name"] === clicked["name"] && charChosen2 === false) {
         charChosen = false;
         attacker["choice1"] = false;
         attacker = [];
         clicked = [];
         clickName = [];
-        //document.getElementById("p1Name").className = "name";//removes class for css to unhighlight selected
-        //document.getElementById("p1HP").className = "hp";//removes class for css to unhighlight selected
         document.getElementsByClassName("name selected")[0].className = "name";
         document.getElementsByClassName("hp selected")[0].className = "hp";
         
@@ -320,16 +332,8 @@ function charSelect() {
         charChosen2 = true;
         attacker2 = clicked;
         clicked["choice2"] = true;
-        // $("#p3Name").empty();
-        // $("#p3Pic").empty();
-        // $("#p3HP").empty();
-        // $("#p4Name").empty();
-        // $("#p4Pic").empty();
-        // $("#p4HP").empty();
-        $("#p3").empty();
-        $("#p4").empty();
-        // document.getElementById("p3").style.display = 'none';
-        // document.getElementById("p4").style.display = 'none';
+        document.getElementById("p3").style.visibility = 'hidden';
+        document.getElementById("p4").style.visibility = 'hidden';
         document.getElementById("p1Name").className = "name selected"; //add class for css to highlight selected
         document.getElementById("p1HP").className = "hp selected"; //add class for css to highlight selected
         document.getElementById("p2Name").className = "name selected"; //add class for css to highlight selected
@@ -344,31 +348,10 @@ function charSelect() {
 $("#p1Pic").on("click", function () {
     if (charChosen2 === false) {
         deadpool["selectAudio"].play();
-        //attacker = deadpool;
         clickName = deadpool["name"];
         clicked = deadpool;
-        //deadpool["choice1"] = true;
-        //defender1 = wolverine;
-       // defender2 = hulk;
         document.getElementById("p1Name").className = "name selected"; //add class for css to highlight selected
         document.getElementById("p1HP").className = "hp selected"; //add class for css to highlight selected
-       /* $("#p2Name").empty();
-        $("#p2Pic").empty();
-        $("#p2HP").empty();
-        $("#p3Name").empty();
-        $("#p3Pic").empty();
-        $("#p3HP").empty();
-        document.getElementById("p2").style.display = 'none';
-        document.getElementById("p3").style.display = 'none';
-        document.getElementById("defender1Name").innerHTML = defender1["name"];
-        document.getElementById("defender1Profile").innerHTML = defender1["pic"];
-        document.getElementById("defender1HitPoints").innerHTML = `HP: ${defender1["hitPoints"]}`;
-        document.getElementById("defender2Name").innerHTML = defender2["name"];
-        document.getElementById("defender2Profile").innerHTML = defender2["pic"];
-        document.getElementById("defender2HitPoints").innerHTML = `HP: ${defender2["hitPoints"]}`;
-        document.getElementById("defender-row").style.display = 'block';
-        document.getElementById("chooseTitle").textContent = "Your Character";
-        document.getElementById("special").textContent = `${attacker["specialMove"]}: ${attacker["specialCounter"]}`; */
         charSelect();
 
     };
@@ -376,36 +359,11 @@ $("#p1Pic").on("click", function () {
 
 $("#p2Pic").on("click", function () {
     if (charChosen2 === false) {
-        wolverine["selectAudio"].play();
-        //charChosen = true;
-        //attacker = wolverine;
+        wolverine["selectAudio"].play();;
         clickName = wolverine["name"];
         clicked = wolverine;
-       // wolverine["choice1"] = true
-        //defender1 = deadpool;
-        //defender2 = hulk;
         document.getElementById("p2Name").className = "name selected"; //add class for css to highlight selected
         document.getElementById("p2HP").className = "hp selected"; //add class for css to highlight selected
-      /*  document.getElementById("p1Name").innerHTML = attacker["name"];
-        document.getElementById("p1Pic").innerHTML = attacker["pic"];
-        document.getElementById("p1HP").innerHTML = `HP: ${attacker["hitPoints"]}`;
-       $("#p2Name").empty();
-        $("#p2Pic").empty();
-        $("#p2HP").empty();
-        $("#p3Name").empty();
-        $("#p3Pic").empty();
-        $("#p3HP").empty();
-        document.getElementById("p2").style.display = 'none';
-        document.getElementById("p3").style.display = 'none';
-        document.getElementById("defender1Name").innerHTML = defender1["name"];
-        document.getElementById("defender1Profile").innerHTML = defender1["pic"];
-        document.getElementById("defender1HitPoints").innerHTML = `HP: ${defender1["hitPoints"]}`;
-        document.getElementById("defender2Name").innerHTML = defender2["name"];
-        document.getElementById("defender2Profile").innerHTML = defender2["pic"];
-        document.getElementById("defender2HitPoints").innerHTML = `HP: ${defender2["hitPoints"]}`;
-        document.getElementById("defender-row").style.display = 'block';
-        document.getElementById("chooseTitle").textContent = "Your Character";
-        document.getElementById("special").textContent = `${attacker["specialMove"]}: ${attacker["specialCounter"]}`; */
         charSelect();
     };
 });
@@ -413,35 +371,10 @@ $("#p2Pic").on("click", function () {
 $("#p3Pic").on("click", function () {
     if (charChosen2 === false) {
         hulk["selectAudio"].play();
-       // charChosen = true;
-        //attacker = hulk;
         clickName = hulk["name"];
         clicked = hulk;
-        //hulk["choice1"] = true
-       // defender1 = deadpool;
-       // defender2 = wolverine;
         document.getElementById("p3Name").className = "name selected"; //add class for css to highlight selected
         document.getElementById("p3HP").className = "hp selected"; //add class for css to highlight selected
-      /*document.getElementById("p1Name").innerHTML = attacker["name"];
-        document.getElementById("p1Pic").innerHTML = attacker["pic"];
-        document.getElementById("p1HP").innerHTML = `HP: ${attacker["hitPoints"]}`;
-        $("#p2Name").empty();
-        $("#p2Pic").empty();
-        $("#p2HP").empty();
-        $("#p3Name").empty();
-        $("#p3Pic").empty();
-        $("#p3HP").empty();
-        document.getElementById("p2").style.display = 'none';
-        document.getElementById("p3").style.display = 'none';
-        document.getElementById("defender1Name").innerHTML = defender1["name"];
-        document.getElementById("defender1Profile").innerHTML = defender1["pic"];
-        document.getElementById("defender1HitPoints").innerHTML = `HP: ${defender1["hitPoints"]}`;
-        document.getElementById("defender2Name").innerHTML = defender2["name"];
-        document.getElementById("defender2Profile").innerHTML = defender2["pic"];
-        document.getElementById("defender2HitPoints").innerHTML = `HP: ${defender2["hitPoints"]}`;
-        document.getElementById("defender-row").style.display = 'block';
-        document.getElementById("chooseTitle").textContent = "Your Character";
-        document.getElementById("special").textContent = `${attacker["specialMove"]}: ${attacker["specialCounter"]}`; */
         charSelect();
     };
 });
@@ -449,35 +382,10 @@ $("#p3Pic").on("click", function () {
 $("#p4Pic").on("click", function () {
     if (charChosen2 === false) {
         ironMan["selectAudio"].play();
-       // charChosen = true;
-        //attacker = hulk;
         clickName = ironMan["name"];
         clicked = ironMan;
-        //hulk["choice1"] = true
-       // defender1 = deadpool;
-       // defender2 = wolverine;
         document.getElementById("p4Name").className = "name selected"; //add class for css to highlight selected
         document.getElementById("p4HP").className = "hp selected"; //add class for css to highlight selected
-      /*document.getElementById("p1Name").innerHTML = attacker["name"];
-        document.getElementById("p1Pic").innerHTML = attacker["pic"];
-        document.getElementById("p1HP").innerHTML = `HP: ${attacker["hitPoints"]}`;
-        $("#p2Name").empty();
-        $("#p2Pic").empty();
-        $("#p2HP").empty();
-        $("#p3Name").empty();
-        $("#p3Pic").empty();
-        $("#p3HP").empty();
-        document.getElementById("p2").style.display = 'none';
-        document.getElementById("p3").style.display = 'none';
-        document.getElementById("defender1Name").innerHTML = defender1["name"];
-        document.getElementById("defender1Profile").innerHTML = defender1["pic"];
-        document.getElementById("defender1HitPoints").innerHTML = `HP: ${defender1["hitPoints"]}`;
-        document.getElementById("defender2Name").innerHTML = defender2["name"];
-        document.getElementById("defender2Profile").innerHTML = defender2["pic"];
-        document.getElementById("defender2HitPoints").innerHTML = `HP: ${defender2["hitPoints"]}`;
-        document.getElementById("defender-row").style.display = 'block';
-        document.getElementById("chooseTitle").textContent = "Your Character";
-        document.getElementById("special").textContent = `${attacker["specialMove"]}: ${attacker["specialCounter"]}`; */
         charSelect();
     };
 });
@@ -511,14 +419,13 @@ function counterAttack() {
         let attackCounter = enemyAttacked["counterAttack"][Math.floor(Math.random() * enemyAttacked.counterAttack.length)];
         attacking["hitPoints"] = attacking["hitPoints"] - attackCounter;
         document.getElementsByClassName(`hp selected ${attacking["name"]}`)[0].innerHTML = `HP: ${attacking["hitPoints"]}`;
-        document.getElementById('combatText3').textContent = `${enemyAttacked["name"]} hit your for ${attackCounter} damage`;
+        document.getElementById('combatText3').textContent = `${enemyAttacked["name"]} hit you for ${attackCounter} damage`;
         winLose();
     };
 };
 
 //player 1 healing logic
 $("#heal").on("click", function () {
-    //if (enemyAttacked)
     if (attacker["healing"] === true && attacker["healCounter"] > 0 && attacker["hitPoints"] === attacker["maxHitPoints"]) {
         $("#combatText1").empty();
         $("#combatText3").empty();
@@ -546,7 +453,6 @@ $("#heal").on("click", function () {
 
 //player 2 healing logic
 $("#heal2").on("click", function () {
-    //if (enemyAttacked)
     if (attacker2["healing"] === true && attacker2["healCounter"] > 0 && attacker2["hitPoints"] === attacker2["maxHitPoints"]) {
         $("#combatText1").empty();
         $("#combatText3").empty();
@@ -575,45 +481,24 @@ $("#heal2").on("click", function () {
 //winLose logic
 
 function winLose() {
-    console.log(attacking["hitPoints"]);
     if (winCounter === 0 && enemyAttacked["hitPoints"] <= 0) {
-        document.getElementsByClassName(`name combatant ${enemyAttacked["name"]}`)[0].style.display = 'none';
-        document.getElementsByClassName(`pic combatant ${enemyAttacked["name"]}`)[0].style.display = 'none';
-        document.getElementsByClassName(`hp combatant ${enemyAttacked["name"]}`)[0].style.display = 'none';
+        document.getElementsByClassName(`name combatant ${enemyAttacked["name"]}`)[0].style.visibility = 'hidden';
+        document.getElementsByClassName(`pic combatant ${enemyAttacked["name"]}`)[0].style.visibility = 'hidden';
+        document.getElementsByClassName(`hp combatant ${enemyAttacked["name"]}`)[0].style.visibility = 'hidden';
         enemyAttacked["loseAudio"].play();
-       /* document.getElementById("combatTitle").textContent = "Final Battle";
-        document.getElementById("combatName").innerHTML = defender2["name"];
-        document.getElementById("combatProfile").innerHTML = defender2["pic"];
-        document.getElementById("combatHitPoints").innerHTML = `HP: ${defender2["hitPoints"]}`;
-        document.getElementById('combatText1').textContent = `Prepare for the final battle`;
-        document.getElementById("chooseTitle").textContent = `${attacker["name"]} versus ${defender2["name"]}`;
-        combatant = defender2;*/
         winCounter++;
         enemyAttacked = [];
         attacking = [];
-    /*} else if (defender2chosen === true && winCounter === 0 && combatant["hitPoints"] <= 0) {
-        document.getElementById("combatTitle").textContent = "Final Battle";
-        document.getElementById("combatName").innerHTML = defender1["name"];
-        document.getElementById("combatProfile").innerHTML = defender1["pic"];
-        document.getElementById("combatHitPoints").innerHTML = `HP: ${defender1["hitPoints"]}`;
-        document.getElementById('combatText1').textContent = `Prepare for the final battle`;
-        document.getElementById("chooseTitle").textContent = `${attacker["name"]} versus ${defender1["name"]}`;
-        combatant = defender1;
-        winCounter++;*/
     } else if (winCounter === 1 && enemyAttacked["hitPoints"] <= 0) {
         attacking["winAudio"].play();
         $("#combatText1").empty();
         $("#combatText2").empty();
         $("#combatText3").empty();
+        document.getElementById("attackBut").style.display = 'none';
+        document.getElementById("attackBut2").style.display = 'none';
         document.getElementById("combatant").style.display = 'none';
-        document.getElementById("heal").style.display = 'none';
-        document.getElementById("attack").style.display = 'none';
-        document.getElementById("special").style.display = 'none';
         document.getElementById("chooseTitle").style.display = 'none';
         document.getElementById("combatant2").style.display = 'none';
-        document.getElementById("heal2").style.display = 'none';
-        document.getElementById("attack2").style.display = 'none';
-        document.getElementById("special2").style.display = 'none';
         document.getElementById("chooseTitle").style.display = 'none';
         document.getElementById("combatTitle").textContent = "You Win!";
         document.getElementById("playAgain").style.display = 'block';
@@ -621,41 +506,23 @@ function winLose() {
         attacking = [];
     } else if (attacking["hitPoints"] <= 0 && lossCounter === 0) {
         attacking["loseAudio"].play();
-        document.getElementsByClassName(`col-3 text-center ${attacking["name"]}`)[0].style.display = 'none';
-        document.getElementsByClassName(`actButn attack ${attacking["name"]}`)[0].style.display = 'none';
-        document.getElementsByClassName(`actButn special ${attacking["name"]}`)[0].style.display = 'none';
-        document.getElementsByClassName(`actButn heal ${attacking["name"]}`)[0].style.display = 'none';
+        document.getElementsByClassName(`col-3 text-center ${attacking["name"]}`)[0].style.visibility = 'hidden';
+        document.getElementsByClassName(`actButn attack ${attacking["name"]}`)[0].style.visibility = 'hidden';
+        document.getElementsByClassName(`actButn special ${attacking["name"]}`)[0].style.visibility = 'hidden';
+        document.getElementsByClassName(`actButn heal ${attacking["name"]}`)[0].style.visibility = 'hidden';
         lossCounter++;
-        console.log(lossCounter);
-        //$("#combatText1").empty();
-        //$("#combatText2").empty();
-        //$("#combatText3").empty();
-       /* document.getElementById("combatant").style.display = 'none';
-        document.getElementById("heal").style.display = 'none';
-        document.getElementById("attack").style.display = 'none';
-        document.getElementById("special").style.display = 'none';
-        document.getElementById("combatTitle").style.display = 'none';
-        document.getElementById("chooseTitle").textContent = "You Lose!";
-        document.getElementById("playAgain").style.display = 'block';*/
     } else if (attacking["hitPoints"] <= 0 && lossCounter === 1) {
         console.log("you lose");
         attacking["loseAudio"].play();
         document.getElementById("chooseTitle").textContent = "You Lose!";
-        document.getElementById("combat-row").style.display = 'none';
+        document.getElementById("combatant-row").style.display = 'none';
         document.getElementsByClassName(`col-3 text-center ${attacking["name"]}`)[0].style.display = 'none';
         document.getElementsByClassName(`actButn attack ${attacking["name"]}`)[0].style.display = 'none';
         document.getElementsByClassName(`actButn special ${attacking["name"]}`)[0].style.display = 'none';
         document.getElementsByClassName(`actButn heal ${attacking["name"]}`)[0].style.display = 'none';
-        //$("#combatText1").empty();
-        //$("#combatText2").empty();
-        //$("#combatText3").empty();
+        document.getElementById("attackBut").style.display = 'none';
+        document.getElementById("attackBut2").style.display = 'none';
         document.getElementById("combatant").style.display = 'none';
-        document.getElementById("heal").style.display = 'none';
-        document.getElementById("attack").style.display = 'none';
-        document.getElementById("special").style.display = 'none';
-        document.getElementById("heal2").style.display = 'none';
-        document.getElementById("attack2").style.display = 'none';
-        document.getElementById("special2").style.display = 'none';
         document.getElementById("combatTitle").style.display = 'none';
         document.getElementById("playAgain").style.display = 'block';
         enemyAttacked = [];
@@ -710,7 +577,6 @@ function specialAttack() {
     document.getElementsByClassName(`hp combatant ${enemyAttacked["name"]}`)[0].innerHTML = `HP: ${enemyAttacked["hitPoints"]}`;
     document.getElementById('combatText1').textContent = `You attacked ${enemyAttacked["name"]} with ${attacking["specialMove"]} for ${attacking["specialDamage"]} damage`;
     attacking["specialCounter"]--;
-    //document.getElementById("special").textContent = `${attacking["specialMove"]}: ${attacking["specialCounter"]}`;
     document.getElementsByClassName(`actButn special ${attacking["name"]}`)[0].textContent = `${attacking["specialMove"]}: ${attacking["specialCounter"]}`;
     specialSelected = false;
     healCheck();
@@ -784,12 +650,37 @@ $("#playAgain").on("click", function () {
     document.getElementById("p2").style.display = 'block';
     document.getElementById("p3").style.display = 'block';
     document.getElementById("combatant").style.display = 'block';
+    document.getElementById("combatant2").style.display = 'block';
     document.getElementById("p1HP").className = `hp`;
     document.getElementById("p2HP").className = `hp`;
     document.getElementById("p1Name").className = "name";
     document.getElementById("p2Name").className = "name";
+    document.getElementById("p3HP").className = `hp`;
+    document.getElementById("p4HP").className = `hp`;
+    document.getElementById("p3Name").className = "name";
+    document.getElementById("p4Name").className = "name";
     lossCounter = 0;
     charChosen = false;
     charChosen2 = false;
+    document.getElementById(`combatName`).className = 'name combatant';
+    document.getElementById(`combatProfile`).className = 'pic combatant';
+    document.getElementById(`combatHitPoints`).className = 'hp combatant';
+    document.getElementById(`combatName2`).className = 'name combatant';
+    document.getElementById(`combatProfile2`).className = 'pic combatant';
+    document.getElementById(`combatHitPoints2`).className = 'hp combatant';
+    document.getElementById(`combatName`).style.visibility = 'visible'
+    document.getElementById(`combatProfile`).style.visibility = 'visible';
+    document.getElementById(`combatHitPoints`).style.visibility = 'visible';
+    document.getElementById(`combatName2`).style.visibility = 'visible';
+    document.getElementById(`combatProfile2`).style.visibility = 'visible';
+    document.getElementById(`combatHitPoints2`).style.visibility = 'visible';
+    document.getElementById(`attack`).className = 'actButn attack';
+    document.getElementById(`special`).className = 'actButn special';
+    document.getElementById(`heal`).className = 'actButn heal';
+    document.getElementById(`attack2`).className = 'actButn attack';
+    document.getElementById(`special2`).className = 'actButn special';
+    document.getElementById(`heal2`).className = 'actButn heal';
+    document.getElementById("combatTitle").textContent = "";
+    charArray = [deadpool, wolverine, hulk, ironMan];
     startGame();
 });
