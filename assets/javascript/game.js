@@ -357,7 +357,7 @@ function counterAttack() {
         let attackCounter = combatant["counterAttack"][Math.floor(Math.random() * combatant.counterAttack.length)];
         attacker["hitPoints"] = attacker["hitPoints"] - attackCounter;
         document.getElementById("p1HP").innerHTML = `HP: ${attacker["hitPoints"]}`;
-        document.getElementById('combatText3').textContent = `${combatant["name"]} hit your for ${attackCounter} damage`;
+        document.getElementById('combatText3').textContent = `${combatant["name"]} hit you for ${attackCounter} damage`;
         winLose();
     };
 };
@@ -492,5 +492,3 @@ $("#playAgain").on("click", function () {
     document.getElementById("combatant").style.display = 'block';
     startGame();
 });
-
-//test
